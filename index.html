@@ -32,6 +32,118 @@
             color: white;
             text-align: center;
             padding: 30px;
+            position: relative;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        
+        .dark-mode .container {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+        
+        .dark-mode .section {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
+        
+        .dark-mode .section h2 {
+            color: #e0e0e0;
+            border-bottom-color: #667eea;
+        }
+        
+        .dark-mode label {
+            color: #c0c0c0;
+        }
+        
+        .dark-mode input, .dark-mode select {
+            background: #3d3d3d;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+        
+        .dark-mode input:focus, .dark-mode select:focus {
+            border-color: #667eea;
+            background: #4d4d4d;
+        }
+        
+        .dark-mode .device-item {
+            background: #3d3d3d;
+            border-color: #555;
+        }
+        
+        .dark-mode .device-name {
+            color: #e0e0e0;
+        }
+        
+        .dark-mode .device-specs {
+            color: #b0b0b0;
+        }
+        
+        .dark-mode .result-card {
+            background: #3d3d3d;
+            color: #e0e0e0;
+        }
+        
+        .dark-mode .result-title {
+            color: #e0e0e0;
+        }
+        
+        .dark-mode .location-info {
+            background: #2d4a5a;
+            border-color: #4a90e2;
+            color: #e0e0e0;
+        }
+        
+        .dark-mode .info-box {
+            background: #4a4a2d;
+            border-color: #7a7a4a;
+            color: #e0e0e0;
+        }
+        
+        .dark-mode .chart-container {
+            background: #3d3d3d;
+            border-color: #555;
+        }
+        
+        .pdf-download {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 20px auto;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+        
+        .pdf-download:hover {
+            transform: translateY(-2px);
         }
         
         .header h1 {
@@ -259,6 +371,7 @@
 <body>
     <div class="container">
         <div class="header">
+            <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
             <h1>⚡ Advanced Off-Grid Solar Calculator</h1>
             <p>Professional solar system design with advanced features</p>
         </div>
@@ -291,7 +404,7 @@
                 
                 <div class="form-group">
                     <label>Autonomy Duration</label>
-                    <input type="number" id="autonomyValue" value="2" min="1" step="0.5">
+                    <input type="number" id="autonomyValue" value="2" min="0.5" step="0.5">
                 </div>
                 
                 <div class="form-group">
@@ -440,15 +553,18 @@
             
             <div class="results">
                 <h2>📊 Advanced System Analysis</h2>
+                <button class="pdf-download" onclick="generatePDF()">📄 Download Detailed PDF Report</button>
                 <div class="results-grid" id="results"></div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
         let devices = [];
         let systemVoltageFixed = false;
         let generationChart = null;
+        let isDarkMode = false;
         
         const presetDevices = {
             laptop: { wattage: 65, efficiency: 90 },
@@ -526,12 +642,32 @@
             }
         });
         
-        // Initialize with laptop preset
+        // Initialize with laptop preset and check for saved theme
         window.onload = function() {
             const preset = presetDevices.laptop;
             document.getElementById('wattage').value = preset.wattage;
             document.getElementById('efficiency').value = preset.efficiency;
+            
+            // Load saved theme
+            const savedTheme = localStorage.getItem('solarCalcTheme');
+            if (savedTheme === 'dark') {
+                toggleTheme();
+            }
         };
+        
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            
+            const themeButton = document.querySelector('.theme-toggle');
+            if (isDarkMode) {
+                themeButton.textContent = '☀️ Light Mode';
+                localStorage.setItem('solarCalcTheme', 'dark');
+            } else {
+                themeButton.textContent = '🌙 Dark Mode';
+                localStorage.setItem('solarCalcTheme', 'light');
+            }
+        }
         
         function getLocation() {
             if (navigator.geolocation) {
@@ -882,6 +1018,226 @@
                     Advanced day/night load calculation</small>
                 </div>
             `;
+        }
+        
+        function generatePDF() {
+            if (devices.length === 0) {
+                alert('Please add some devices before generating the PDF report.');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Get current system data
+            const systemVoltage = parseFloat(document.getElementById('systemVoltage').value);
+            const sunHours = parseFloat(document.getElementById('sunHours').value);
+            const autonomyUnit = document.getElementById('autonomyUnit').value;
+            const autonomyValue = parseFloat(document.getElementById('autonomyValue').value);
+            const location = document.getElementById('location').value || 'Not specified';
+            const generationPattern = document.getElementById('generationPattern').value;
+            
+            // Calculate totals for PDF
+            let totalDailyWh = 0;
+            let totalDaytimeWh = 0;
+            let totalNighttimeWh = 0;
+            let totalPeakWatts = 0;
+            
+            devices.forEach(device => {
+                const actualWattage = device.wattage / (device.efficiency / 100);
+                totalDaytimeWh += actualWattage * device.quantity * device.daytimeHours;
+                totalNighttimeWh += actualWattage * device.quantity * device.nighttimeHours;
+                totalPeakWatts += actualWattage * device.quantity;
+            });
+            totalDailyWh = totalDaytimeWh + totalNighttimeWh;
+            
+            // Calculate system requirements
+            const systemEfficiency = parseFloat(document.getElementById('systemEfficiency').value) / 100;
+            const batteryDOD = parseFloat(document.getElementById('batteryDOD').value) / 100;
+            const panelDerating = parseFloat(document.getElementById('panelDerating').value) / 100;
+            const safetyMargin = parseFloat(document.getElementById('safetyMargin').value) / 100;
+            
+            let effectiveGenerationHours = sunHours;
+            if (generationPattern === 'gaussian') {
+                effectiveGenerationHours = sunHours * 1.15;
+            }
+            
+            const totalDailyWhWithLosses = totalDailyWh / systemEfficiency;
+            const solarWattsNeeded = totalDailyWhWithLosses / effectiveGenerationHours / panelDerating;
+            const recommendedSolarWatts = solarWattsNeeded * (1 + safetyMargin);
+            const autonomyHours = autonomyUnit === 'days' ? autonomyValue * 24 : autonomyValue;
+            const netBatteryWh = totalNighttimeWh + Math.max(0, totalDaytimeWh - (effectiveGenerationHours * 100));
+            const batteryWhNeeded = (netBatteryWh * autonomyHours / 24) / batteryDOD;
+            const batteryAhNeeded = batteryWhNeeded / systemVoltage;
+            const inverterWattsNeeded = totalPeakWatts * (1 + safetyMargin);
+            const chargeControllerAmps = recommendedSolarWatts / systemVoltage * (1 + safetyMargin * 0.5);
+            
+            // PDF Header
+            doc.setFontSize(20);
+            doc.setTextColor(102, 126, 234);
+            doc.text('Off-Grid Solar System Design Report', 20, 30);
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 40);
+            doc.text(`Location: ${location}`, 20, 50);
+            
+            // System Overview
+            let yPos = 70;
+            doc.setFontSize(16);
+            doc.setTextColor(102, 126, 234);
+            doc.text('System Overview', 20, yPos);
+            yPos += 15;
+            
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`DC System Voltage: ${systemVoltage}V`, 20, yPos);
+            doc.text(`Daily Sun Hours: ${sunHours}h`, 120, yPos);
+            yPos += 10;
+            doc.text(`Generation Pattern: ${generationPattern}`, 20, yPos);
+            doc.text(`Autonomy: ${autonomyValue} ${autonomyUnit}`, 120, yPos);
+            yPos += 20;
+            
+            // Device List
+            doc.setFontSize(16);
+            doc.setTextColor(102, 126, 234);
+            doc.text('Device List', 20, yPos);
+            yPos += 15;
+            
+            doc.setFontSize(9);
+            doc.setTextColor(0, 0, 0);
+            devices.forEach((device, index) => {
+                if (yPos > 250) {
+                    doc.addPage();
+                    yPos = 30;
+                }
+                
+                const actualWattage = device.wattage / (device.efficiency / 100);
+                doc.text(`${index + 1}. ${device.name}`, 20, yPos);
+                yPos += 8;
+                doc.text(`   Power: ${device.wattage}W (${actualWattage.toFixed(1)}W actual) | Qty: ${device.quantity} | Efficiency: ${device.efficiency}%`, 25, yPos);
+                yPos += 8;
+                doc.text(`   Usage: ${device.daytimeHours}h daytime, ${device.nighttimeHours}h nighttime`, 25, yPos);
+                yPos += 12;
+            });
+            
+            // Energy Consumption Analysis
+            yPos += 10;
+            if (yPos > 220) {
+                doc.addPage();
+                yPos = 30;
+            }
+            
+            doc.setFontSize(16);
+            doc.setTextColor(102, 126, 234);
+            doc.text('Energy Consumption Analysis', 20, yPos);
+            yPos += 15;
+            
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Total Daily Consumption: ${totalDailyWh.toFixed(0)} Wh`, 20, yPos);
+            yPos += 10;
+            doc.text(`  - Daytime Consumption: ${totalDaytimeWh.toFixed(0)} Wh`, 25, yPos);
+            yPos += 8;
+            doc.text(`  - Nighttime Consumption: ${totalNighttimeWh.toFixed(0)} Wh`, 25, yPos);
+            yPos += 10;
+            doc.text(`Total with System Losses: ${totalDailyWhWithLosses.toFixed(0)} Wh`, 20, yPos);
+            yPos += 10;
+            doc.text(`Peak Power Demand: ${totalPeakWatts.toFixed(0)} W`, 20, yPos);
+            yPos += 20;
+            
+            // System Requirements
+            doc.setFontSize(16);
+            doc.setTextColor(102, 126, 234);
+            doc.text('Recommended System Components', 20, yPos);
+            yPos += 15;
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            
+            // Solar Panels
+            doc.setFontSize(14);
+            doc.text('1. Solar Panels', 20, yPos);
+            yPos += 10;
+            doc.setFontSize(11);
+            doc.text(`Recommended Capacity: ${recommendedSolarWatts.toFixed(0)} W`, 25, yPos);
+            yPos += 8;
+            doc.text(`Minimum Required: ${solarWattsNeeded.toFixed(0)} W`, 25, yPos);
+            yPos += 8;
+            doc.text(`Effective Generation Hours: ${effectiveGenerationHours.toFixed(1)} h/day`, 25, yPos);
+            yPos += 15;
+            
+            // Battery Bank
+            doc.setFontSize(14);
+            doc.text('2. Battery Bank', 20, yPos);
+            yPos += 10;
+            doc.setFontSize(11);
+            doc.text(`Capacity Required: ${batteryAhNeeded.toFixed(0)} Ah at ${systemVoltage}V`, 25, yPos);
+            yPos += 8;
+            doc.text(`Energy Storage: ${batteryWhNeeded.toFixed(0)} Wh`, 25, yPos);
+            yPos += 8;
+            doc.text(`Depth of Discharge: ${(parseFloat(document.getElementById('batteryDOD').value))}%`, 25, yPos);
+            yPos += 15;
+            
+            // Inverter
+            doc.setFontSize(14);
+            doc.text('3. Inverter', 20, yPos);
+            yPos += 10;
+            doc.setFontSize(11);
+            doc.text(`Minimum Capacity: ${inverterWattsNeeded.toFixed(0)} W`, 25, yPos);
+            yPos += 8;
+            doc.text(`Output Voltage: ${document.getElementById('inverterVoltage').value}V AC`, 25, yPos);
+            yPos += 15;
+            
+            // Charge Controller
+            doc.setFontSize(14);
+            doc.text('4. Charge Controller', 20, yPos);
+            yPos += 10;
+            doc.setFontSize(11);
+            doc.text(`Current Rating: ${chargeControllerAmps.toFixed(1)} A`, 25, yPos);
+            yPos += 8;
+            doc.text(`Type: MPPT Recommended`, 25, yPos);
+            yPos += 8;
+            doc.text(`System Voltage: ${systemVoltage}V DC`, 25, yPos);
+            
+            // Add new page for additional information
+            doc.addPage();
+            yPos = 30;
+            
+            // Installation Notes
+            doc.setFontSize(16);
+            doc.setTextColor(102, 126, 234);
+            doc.text('Installation & Safety Notes', 20, yPos);
+            yPos += 15;
+            
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            const notes = [
+                '• All calculations include safety margins for reliable operation',
+                '• Battery capacity assumes specified depth of discharge limits',
+                '• Solar panel sizing accounts for real-world derating factors',
+                '• Professional installation is recommended for safety and optimal performance',
+                '• Regular maintenance will ensure maximum system lifespan',
+                '• Consider local electrical codes and permit requirements',
+                '• Battery ventilation and temperature control are essential',
+                '• Install proper fusing and disconnects for safety'
+            ];
+            
+            notes.forEach(note => {
+                doc.text(note, 20, yPos);
+                yPos += 10;
+            });
+            
+            // Footer
+            yPos += 20;
+            doc.setFontSize(10);
+            doc.setTextColor(128, 128, 128);
+            doc.text('Generated by Advanced Off-Grid Solar Calculator', 20, yPos);
+            doc.text('This report is for planning purposes. Consult with professionals for final installation.', 20, yPos + 10);
+            
+            // Save the PDF
+            const fileName = `Solar_System_Design_${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(fileName);
         }
         
         // Update calculations when system parameters change
