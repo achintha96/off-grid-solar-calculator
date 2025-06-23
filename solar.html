@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Off-Grid Solar System Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        .section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .device-list {
+            margin-top: 20px;
+        }
+        
+        .device-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .device-info {
+            flex: 1;
+        }
+        
+        .device-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .device-specs {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .results {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 10px;
+            padding: 25px;
+        }
+        
+        .results h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .result-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .result-value {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            .results {
+                grid-column: span 1;
+            }
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Off-Grid Solar Calculator</h1>
+            <p>Design your perfect solar system</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>System Configuration</h2>
+                
+                <div class="form-group">
+                    <label>DC System Voltage</label>
+                    <select id="systemVoltage">
+                        <option value="12">12V DC</option>
+                        <option value="24" selected>24V DC</option>
+                        <option value="36">36V DC</option>
+                        <option value="48">48V DC</option>
+                        <option value="60">60V DC</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Inverter Output Voltage</label>
+                    <select id="inverterVoltage">
+                        <option value="110">110V AC</option>
+                        <option value="240" selected>240V AC</option>
+                    </select>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>Daily Sun Hours</label>
+                        <input type="number" id="sunHours" value="5" min="1" max="12" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label>Days of Autonomy</label>
+                        <input type="number" id="autonomyDays" value="2" min="1" max="7">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>System Efficiency (%)</label>
+                        <input type="number" id="systemEfficiency" value="80" min="50" max="95">
+                    </div>
+                    <div class="form-group">
+                        <label>Battery DOD (%)</label>
+                        <input type="number" id="batteryDOD" value="50" min="20" max="90">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Add Devices</h2>
+                
+                <div class="form-group">
+                    <label>Device Type</label>
+                    <select id="deviceType">
+                        <option value="laptop">Laptop</option>
+                        <option value="tv">TV</option>
+                        <option value="fan">Fan</option>
+                        <option value="refrigerator">Refrigerator</option>
+                        <option value="led_bulb">LED Bulb</option>
+                        <option value="cfl_bulb">CFL Bulb</option>
+                        <option value="microwave">Microwave</option>
+                        <option value="washing_machine">Washing Machine</option>
+                        <option value="custom">Custom Device</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="customNameGroup" style="display:none;">
+                    <label>Device Name</label>
+                    <input type="text" id="customName" placeholder="Enter device name">
+                </div>
+                
+                <div class="form-group">
+                    <label>Power Input Method</label>
+                    <select id="powerMethod">
+                        <option value="wattage">Wattage & Efficiency</option>
+                        <option value="voltage_current">Voltage & Current</option>
+                    </select>
+                </div>
+                
+                <div id="wattageInputs">
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Wattage (W)</label>
+                            <input type="number" id="wattage" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Efficiency (%) - Optional</label>
+                            <input type="number" id="efficiency" placeholder="Default: 90%">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="voltageCurrentInputs" style="display:none;">
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Voltage (V)</label>
+                            <select id="deviceVoltage">
+                                <option value="110">110V AC</option>
+                                <option value="240">240V AC</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Current (A)</label>
+                            <input type="number" id="current" min="0.1" step="0.1">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" id="quantity" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Usage Hours/Day</label>
+                        <input type="number" id="usageHours" value="1" min="0.1" step="0.1">
+                    </div>
+                </div>
+                
+                <button onclick="addDevice()">Add Device</button>
+                
+                <div class="device-list" id="deviceList"></div>
+            </div>
+            
+            <div class="results">
+                <h2>📊 System Requirements</h2>
+                <div class="results-grid" id="results"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let devices = [];
+        let systemVoltageFixed = false;
+        
+        const presetDevices = {
+            laptop: { wattage: 65, efficiency: 90 },
+            tv: { wattage: 150, efficiency: 85 },
+            fan: { wattage: 75, efficiency: 80 },
+            refrigerator: { wattage: 200, efficiency: 70 },
+            led_bulb: { wattage: 10, efficiency: 90 },
+            cfl_bulb: { wattage: 23, efficiency: 80 },
+            microwave: { wattage: 1000, efficiency: 75 },
+            washing_machine: { wattage: 500, efficiency: 80 }
+        };
+        
+        // Event listeners
+        document.getElementById('deviceType').addEventListener('change', function() {
+            const customGroup = document.getElementById('customNameGroup');
+            const wattageInput = document.getElementById('wattage');
+            const efficiencyInput = document.getElementById('efficiency');
+            
+            if (this.value === 'custom') {
+                customGroup.style.display = 'block';
+                wattageInput.value = '';
+                efficiencyInput.value = '';
+            } else {
+                customGroup.style.display = 'none';
+                const preset = presetDevices[this.value];
+                wattageInput.value = preset.wattage;
+                efficiencyInput.value = preset.efficiency;
+            }
+        });
+        
+        document.getElementById('powerMethod').addEventListener('change', function() {
+            const wattageInputs = document.getElementById('wattageInputs');
+            const voltageCurrentInputs = document.getElementById('voltageCurrentInputs');
+            
+            if (this.value === 'wattage') {
+                wattageInputs.style.display = 'block';
+                voltageCurrentInputs.style.display = 'none';
+            } else {
+                wattageInputs.style.display = 'none';
+                voltageCurrentInputs.style.display = 'block';
+            }
+        });
+        
+        // Initialize with laptop preset
+        window.onload = function() {
+            const preset = presetDevices.laptop;
+            document.getElementById('wattage').value = preset.wattage;
+            document.getElementById('efficiency').value = preset.efficiency;
+        };
+        
+        function addDevice() {
+            const deviceType = document.getElementById('deviceType').value;
+            const powerMethod = document.getElementById('powerMethod').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const usageHours = parseFloat(document.getElementById('usageHours').value);
+            
+            let deviceName, wattage, efficiency, voltage, current;
+            
+            if (deviceType === 'custom') {
+                deviceName = document.getElementById('customName').value;
+                if (!deviceName.trim()) {
+                    alert('Please enter a device name for custom device');
+                    return;
+                }
+            } else {
+                deviceName = deviceType.replace('_', ' ').toUpperCase();
+            }
+            
+            if (powerMethod === 'wattage') {
+                wattage = parseFloat(document.getElementById('wattage').value);
+                efficiency = parseFloat(document.getElementById('efficiency').value) || 90;
+                
+                if (!wattage || wattage <= 0) {
+                    alert('Please enter a valid wattage');
+                    return;
+                }
+            } else {
+                voltage = parseFloat(document.getElementById('deviceVoltage').value);
+                current = parseFloat(document.getElementById('current').value);
+                
+                if (!current || current <= 0) {
+                    alert('Please enter a valid current');
+                    return;
+                }
+                
+                wattage = voltage * current;
+                efficiency = 90; // Default efficiency for voltage/current method
+                
+                // Fix inverter voltage if using voltage/current method
+                if (!systemVoltageFixed) {
+                    document.getElementById('inverterVoltage').value = voltage;
+                    document.getElementById('inverterVoltage').disabled = true;
+                    systemVoltageFixed = true;
+                }
+            }
+            
+            const device = {
+                name: deviceName,
+                wattage: wattage,
+                efficiency: efficiency,
+                quantity: quantity,
+                usageHours: usageHours,
+                powerMethod: powerMethod,
+                voltage: powerMethod === 'voltage_current' ? voltage : null,
+                current: powerMethod === 'voltage_current' ? current : null
+            };
+            
+            devices.push(device);
+            updateDeviceList();
+            calculateSystem();
+            
+            // Reset form
+            if (deviceType === 'custom') {
+                document.getElementById('customName').value = '';
+            }
+            document.getElementById('quantity').value = 1;
+            document.getElementById('usageHours').value = 1;
+        }
+        
+        function removeDevice(index) {
+            devices.splice(index, 1);
+            
+            // If no voltage/current devices left, enable inverter voltage selection
+            const hasVoltageCurrentDevices = devices.some(d => d.powerMethod === 'voltage_current');
+            if (!hasVoltageCurrentDevices) {
+                document.getElementById('inverterVoltage').disabled = false;
+                systemVoltageFixed = false;
+            }
+            
+            updateDeviceList();
+            calculateSystem();
+        }
+        
+        function updateDeviceList() {
+            const deviceList = document.getElementById('deviceList');
+            deviceList.innerHTML = '';
+            
+            devices.forEach((device, index) => {
+                const deviceDiv = document.createElement('div');
+                deviceDiv.className = 'device-item';
+                
+                let specs = `${device.wattage}W`;
+                if (device.powerMethod === 'voltage_current') {
+                    specs += ` (${device.voltage}V × ${device.current}A)`;
+                }
+                specs += `, ${device.efficiency}% eff, ${device.quantity}× qty, ${device.usageHours}h/day`;
+                
+                deviceDiv.innerHTML = `
+                    <div class="device-info">
+                        <div class="device-name">${device.name}</div>
+                        <div class="device-specs">${specs}</div>
+                    </div>
+                    <button class="remove-btn" onclick="removeDevice(${index})">Remove</button>
+                `;
+                
+                deviceList.appendChild(deviceDiv);
+            });
+        }
+        
+        function calculateSystem() {
+            if (devices.length === 0) {
+                document.getElementById('results').innerHTML = '<p>Add devices to see calculations</p>';
+                return;
+            }
+            
+            const systemVoltage = parseFloat(document.getElementById('systemVoltage').value);
+            const sunHours = parseFloat(document.getElementById('sunHours').value);
+            const autonomyDays = parseFloat(document.getElementById('autonomyDays').value);
+            const systemEfficiency = parseFloat(document.getElementById('systemEfficiency').value) / 100;
+            const batteryDOD = parseFloat(document.getElementById('batteryDOD').value) / 100;
+            
+            // Calculate total daily energy consumption
+            let totalDailyWh = 0;
+            let totalPeakWatts = 0;
+            
+            devices.forEach(device => {
+                const actualWattage = device.wattage / (device.efficiency / 100);
+                const dailyWh = actualWattage * device.quantity * device.usageHours;
+                totalDailyWh += dailyWh;
+                totalPeakWatts += actualWattage * device.quantity;
+            });
+            
+            // Account for system efficiency
+            const totalDailyWhWithLosses = totalDailyWh / systemEfficiency;
+            
+            // Solar panel requirements
+            const solarWattsNeeded = totalDailyWhWithLosses / sunHours;
+            const recommendedSolarWatts = solarWattsNeeded * 1.25; // 25% safety margin
+            
+            // Battery requirements
+            const batteryWhNeeded = totalDailyWh * autonomyDays / batteryDOD;
+            const batteryAhNeeded = batteryWhNeeded / systemVoltage;
+            
+            // Inverter requirements
+            const inverterWattsNeeded = totalPeakWatts * 1.25; // 25% safety margin
+            
+            // Charge controller requirements
+            const chargeControllerAmps = recommendedSolarWatts / systemVoltage * 1.25; // 25% safety margin
+            
+            displayResults({
+                totalDailyWh: totalDailyWh.toFixed(0),
+                totalDailyWhWithLosses: totalDailyWhWithLosses.toFixed(0),
+                totalPeakWatts: totalPeakWatts.toFixed(0),
+                solarWattsNeeded: solarWattsNeeded.toFixed(0),
+                recommendedSolarWatts: recommendedSolarWatts.toFixed(0),
+                batteryWhNeeded: batteryWhNeeded.toFixed(0),
+                batteryAhNeeded: batteryAhNeeded.toFixed(0),
+                inverterWattsNeeded: inverterWattsNeeded.toFixed(0),
+                chargeControllerAmps: chargeControllerAmps.toFixed(1),
+                systemVoltage: systemVoltage
+            });
+        }
+        
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('results');
+            
+            resultsDiv.innerHTML = `
+                <div class="result-card">
+                    <div class="result-title">Daily Energy Consumption</div>
+                    <div class="result-value">${results.totalDailyWh} Wh</div>
+                    <small>Including losses: ${results.totalDailyWhWithLosses} Wh</small>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-title">Peak Power Demand</div>
+                    <div class="result-value">${results.totalPeakWatts} W</div>
+                    <small>Maximum simultaneous load</small>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-title">Solar Panel Capacity</div>
+                    <div class="result-value">${results.recommendedSolarWatts} W</div>
+                    <small>Minimum needed: ${results.solarWattsNeeded} W</small>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-title">Battery Capacity</div>
+                    <div class="result-value">${results.batteryAhNeeded} Ah</div>
+                    <small>At ${results.systemVoltage}V (${results.batteryWhNeeded} Wh)</small>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-title">Inverter Capacity</div>
+                    <div class="result-value">${results.inverterWattsNeeded} W</div>
+                    <small>With 25% safety margin</small>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-title">Charge Controller</div>
+                    <div class="result-value">${results.chargeControllerAmps} A</div>
+                    <small>MPPT recommended</small>
+                </div>
+            `;
+        }
+        
+        // Update calculations when system parameters change
+        ['systemVoltage', 'sunHours', 'autonomyDays', 'systemEfficiency', 'batteryDOD'].forEach(id => {
+            document.getElementById(id).addEventListener('change', calculateSystem);
+        });
+    </script>
+</body>
+</html>
