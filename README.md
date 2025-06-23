@@ -2,7 +2,7 @@
 
 A professional, responsive web application for designing off-grid solar power systems. Calculate solar panel requirements, battery capacity, inverter sizing, and more with an intuitive interface.
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-blue?style=for-the-badge&logo=github)](https://yourusername.github.io/off-grid-solar-calculator)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-blue?style=for-the-badge&logo=github)](https://achintha96.github.io/off-grid-solar-calculator)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ## ✨ Features
