@@ -20,7 +20,7 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -33,14 +33,14 @@
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
             text-align: center;
-            padding: 30px;
+            padding: 20px 30px;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         
         .theme-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
             background: rgba(255,255,255,0.2);
             border: 2px solid rgba(255,255,255,0.3);
             color: white;
@@ -61,69 +61,81 @@
             transform: scale(1.1);
         }
         
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+        .header-content {
+            flex: 1;
         }
         
-        .main-content {
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .main-layout {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            padding: 30px;
+            gap: 0;
+            min-height: 600px;
+        }
+        
+        .left-panel {
+            border-right: 2px solid #e9ecef;
         }
         
         .system-diagram {
             background: #f8f9fa;
-            border-radius: 15px;
-            padding: 30px;
-            border: 2px solid #e9ecef;
+            padding: 25px;
+            border-bottom: 2px solid #e9ecef;
         }
         
         .diagram-title {
             text-align: center;
             color: #333;
-            font-size: 1.5em;
-            margin-bottom: 30px;
+            font-size: 1.3em;
+            margin-bottom: 20px;
             font-weight: 600;
         }
         
-        .diagram-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            grid-template-rows: auto auto auto;
-            gap: 20px;
+        .diagram-flow {
+            display: flex;
             align-items: center;
-            justify-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
         }
         
         .component-icon {
             background: white;
             border: 3px solid #667eea;
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
-            min-height: 120px;
+            min-width: 80px;
+            min-height: 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
         }
         
         .component-icon:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
             border-color: #f093fb;
         }
         
         .component-icon .icon {
-            font-size: 3em;
-            margin-bottom: 10px;
+            font-size: 2em;
+            margin-bottom: 5px;
             transition: transform 0.3s ease;
         }
         
@@ -134,65 +146,92 @@
         .component-icon .label {
             font-weight: 600;
             color: #333;
-            font-size: 0.9em;
+            font-size: 0.7em;
         }
         
-        .component-icon .status {
-            font-size: 0.8em;
-            color: #666;
-            margin-top: 5px;
+        .flow-arrow {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
         }
         
-        .sun-icon { grid-column: 2; grid-row: 1; }
-        .panel-icon { grid-column: 1; grid-row: 2; }
-        .controller-icon { grid-column: 2; grid-row: 2; }
-        .inverter-icon { grid-column: 3; grid-row: 2; }
-        .house-icon { grid-column: 4; grid-row: 2; }
-        .battery-icon { grid-column: 2; grid-row: 3; }
-        
-        .connection-line {
-            background: #667eea;
-            height: 3px;
-            border-radius: 2px;
-            position: relative;
+        .battery-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
         }
         
-        .line-h { grid-row: 2; }
-        .line-v { width: 3px; height: 100%; }
+        .status-info {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            text-align: center;
+            color: #1976d2;
+        }
+        
+        .right-panel {
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+        }
         
         .device-panel {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 25px;
-            border: 2px solid #e9ecef;
+            padding: 20px;
+            flex: 1;
+            border-bottom: 2px solid #e9ecef;
         }
         
         .device-panel h2 {
             color: #333;
-            margin-bottom: 20px;
-            font-size: 1.4em;
+            margin-bottom: 15px;
+            font-size: 1.2em;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .add-device-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 15px;
+            transition: transform 0.2s ease;
+            width: 100%;
+        }
+        
+        .add-device-btn:hover {
+            transform: translateY(-2px);
         }
         
         .device-list {
-            max-height: 400px;
+            max-height: 300px;
             overflow-y: auto;
         }
         
         .device-item {
             background: white;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: transform 0.2s ease;
+            font-size: 0.85em;
         }
         
         .device-item:hover {
-            transform: translateX(5px);
+            transform: translateX(3px);
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
@@ -203,22 +242,23 @@
         .device-name {
             font-weight: bold;
             color: #333;
+            font-size: 0.9em;
         }
         
         .device-specs {
-            font-size: 0.9em;
+            font-size: 0.8em;
             color: #666;
-            margin-top: 5px;
+            margin-top: 3px;
         }
         
         .remove-btn {
             background: #dc3545;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            padding: 4px 8px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             transition: background 0.2s ease;
         }
         
@@ -226,31 +266,56 @@
             background: #c82333;
         }
         
+        .quick-actions {
+            padding: 15px 20px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .quick-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s ease;
+        }
+        
+        .quick-btn:hover {
+            background: #5a6fd8;
+        }
+        
         .results {
             grid-column: span 2;
             background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 20px;
+            padding: 25px;
         }
         
         .results h2 {
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
-            font-size: 1.8em;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         .pdf-download {
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 16px;
-            margin: 0 auto 20px auto;
+            font-size: 14px;
+            margin: 0 auto 15px auto;
             display: block;
             transition: transform 0.2s ease;
         }
@@ -261,35 +326,42 @@
         
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
         }
         
         .result-card {
             background: white;
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 8px;
+            padding: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: transform 0.2s ease;
         }
         
         .result-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
         .result-title {
             font-weight: bold;
             color: #333;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
         }
         
         .result-value {
-            font-size: 1.5em;
+            font-size: 1.3em;
             color: #667eea;
             font-weight: bold;
+            margin-bottom: 5px;
         }
         
-        /* Modal Styles */
+        .result-details {
+            font-size: 0.75em;
+            color: #666;
+        }
+        
+        /* Modal Styles - keeping original modal code */
         .modal {
             display: none;
             position: fixed;
@@ -304,14 +376,17 @@
         
         .modal-content {
             background-color: #fefefe;
-            margin: 5% auto;
-            padding: 30px;
+            margin: 2% auto;
+            padding: 25px;
             border: none;
             border-radius: 15px;
             width: 90%;
             max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             animation: modalSlideIn 0.3s ease;
+            position: relative;
         }
         
         @keyframes modalSlideIn {
@@ -452,8 +527,13 @@
         }
         
         .dark-mode .system-diagram,
-        .dark-mode .device-panel {
+        .dark-mode .device-panel,
+        .dark-mode .right-panel {
             background: #2d2d2d;
+            border-color: #404040;
+        }
+        
+        .dark-mode .left-panel {
             border-color: #404040;
         }
         
@@ -472,10 +552,6 @@
             color: #e0e0e0;
         }
         
-        .dark-mode .component-icon .status {
-            color: #b0b0b0;
-        }
-        
         .dark-mode .device-item {
             background: #3d3d3d;
             border-color: #555;
@@ -490,7 +566,8 @@
         }
         
         .dark-mode .result-card,
-        .dark-mode .modal-content {
+        .dark-mode .modal-content,
+        .dark-mode .quick-actions {
             background: #3d3d3d;
             color: #e0e0e0;
         }
@@ -533,23 +610,67 @@
             border-color: #555;
         }
         
+        .dark-mode .status-info {
+            background: #2d4a5a;
+            color: #4fc3f7;
+        }
+        
+        .modal-footer {
+            position: sticky;
+            bottom: 0;
+            background: inherit;
+            padding-top: 15px;
+            margin-top: 25px;
+            border-top: 1px solid #eee;
+            text-align: right;
+        }
+        
+        .modal-body {
+            max-height: calc(90vh - 150px);
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
         @media (max-width: 1024px) {
-            .main-content {
+            .main-layout {
                 grid-template-columns: 1fr;
             }
             
-            .diagram-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 15px;
+            .left-panel {
+                border-right: none;
+                border-bottom: 2px solid #e9ecef;
+            }
+            
+            .diagram-flow {
+                gap: 10px;
             }
             
             .component-icon {
-                min-height: 100px;
-                padding: 15px;
+                min-width: 70px;
+                min-height: 70px;
+                padding: 10px;
             }
             
             .component-icon .icon {
-                font-size: 2.5em;
+                font-size: 1.8em;
             }
         }
         
@@ -565,9 +686,22 @@
                 padding: 20px;
             }
             
-            .diagram-grid {
-                grid-template-columns: 1fr;
+            .diagram-flow {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+            
+            .header {
+                flex-direction: column;
                 gap: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
             }
         }
     </style>
@@ -576,71 +710,90 @@
     <div class="container">
         <div class="header">
             <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-            <h1>⚡ Advanced Off-Grid Solar Calculator</h1>
-            <p>Professional solar system design with beautiful interface</p>
+            <div class="header-content">
+                <h1>⚡ Advanced Solar Calculator</h1>
+                <p>Professional solar system design with beautiful interface</p>
+            </div>
+            <div style="width: 45px;"></div> <!-- Spacer for centering -->
         </div>
         
-        <div class="main-content">
-            <div class="system-diagram">
-                <h2 class="diagram-title">Solar System Components</h2>
-                <div class="diagram-grid">
-                    <!-- Sun -->
-                    <div class="component-icon sun-icon" onclick="openModal('solarModal')">
-                        <div class="icon">☀️</div>
-                        <div class="label">Sun & Location</div>
-                        <div class="status" id="sunStatus">Click to configure</div>
+        <div class="main-layout">
+            <div class="left-panel">
+                <div class="system-diagram">
+                    <h2 class="diagram-title">Solar System Components</h2>
+                    
+                    <div class="diagram-flow">
+                        <div class="component-icon" onclick="openModal('solarModal')" title="Configure sun hours and location">
+                            <div class="icon">☀️</div>
+                            <div class="label">Sun</div>
+                        </div>
+                        
+                        <div class="flow-arrow">→</div>
+                        
+                        <div class="component-icon" onclick="openModal('solarModal')" title="Configure solar panels">
+                            <div class="icon">⚡</div>
+                            <div class="label">Panel</div>
+                        </div>
+                        
+                        <div class="flow-arrow">→</div>
+                        
+                        <div class="component-icon" onclick="openModal('systemModal')" title="Configure charge controller">
+                            <div class="icon">⚙️</div>
+                            <div class="label">Controller</div>
+                        </div>
+                        
+                        <div class="flow-arrow">→</div>
+                        
+                        <div class="component-icon" onclick="openModal('systemModal')" title="Configure inverter">
+                            <div class="icon">🔌</div>
+                            <div class="label">Inverter</div>
+                        </div>
+                        
+                        <div class="flow-arrow">→</div>
+                        
+                        <div class="component-icon" onclick="openModal('deviceModal')" title="Add electrical devices">
+                            <div class="icon">🏠</div>
+                            <div class="label">Load</div>
+                        </div>
                     </div>
                     
-                    <!-- Solar Panel -->
-                    <div class="component-icon panel-icon" onclick="openModal('solarModal')">
-                        <div class="icon">🔋</div>
-                        <div class="label">Solar Panels</div>
-                        <div class="status" id="panelStatus">Click to configure</div>
+                    <div class="battery-section">
+                        <div class="component-icon" onclick="openModal('systemModal')" title="Configure battery bank">
+                            <div class="icon">🔋</div>
+                            <div class="label">Battery</div>
+                        </div>
                     </div>
                     
-                    <!-- Charge Controller -->
-                    <div class="component-icon controller-icon" onclick="openModal('systemModal')">
-                        <div class="icon">⚙️</div>
-                        <div class="label">Charge Controller</div>
-                        <div class="status" id="controllerStatus">Click to configure</div>
-                    </div>
-                    
-                    <!-- Inverter -->
-                    <div class="component-icon inverter-icon" onclick="openModal('systemModal')">
-                        <div class="icon">🔌</div>
-                        <div class="label">Inverter</div>
-                        <div class="status" id="inverterStatus">Click to configure</div>
-                    </div>
-                    
-                    <!-- House/Load -->
-                    <div class="component-icon house-icon" onclick="openModal('deviceModal')">
-                        <div class="icon">🏠</div>
-                        <div class="label">Electrical Load</div>
-                        <div class="status" id="houseStatus">Click to add devices</div>
-                    </div>
-                    
-                    <!-- Battery -->
-                    <div class="component-icon battery-icon" onclick="openModal('systemModal')">
-                        <div class="icon">🔋</div>
-                        <div class="label">Battery Bank</div>
-                        <div class="status" id="batteryStatus">Click to configure</div>
+                    <div class="status-info" id="systemStatus">
+                        Click components above to configure your solar system
                     </div>
                 </div>
             </div>
             
-            <div class="device-panel">
-                <h2>📋 Device List</h2>
-                <div class="device-list" id="deviceList">
-                    <p style="text-align: center; color: #666; padding: 20px;">
-                        Click the house icon to add devices
-                    </p>
+            <div class="right-panel">
+                <div class="device-panel">
+                    <h2>📋 Device List</h2>
+                    <button class="add-device-btn" onclick="openModal('deviceModal')">
+                        ➕ Add Device
+                    </button>
+                    <div class="device-list" id="deviceList">
+                        <p style="text-align: center; color: #666; padding: 20px; font-size: 0.85em;">
+                            No devices added yet
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <button class="quick-btn" onclick="openModal('solarModal')">🌍 Location & Sun</button>
+                    <button class="quick-btn" onclick="openModal('systemModal')">⚙️ System Config</button>
+                    <button class="quick-btn" onclick="clearAllDevices()">🗑️ Clear All</button>
                 </div>
             </div>
         </div>
         
         <div class="results">
-            <h2>📊 Advanced System Analysis</h2>
-            <button class="pdf-download" onclick="generatePDF()">📄 Download Detailed PDF Report</button>
+            <h2>📊 System Analysis</h2>
+            <button class="pdf-download" onclick="generatePDF()">📄 Download PDF Report</button>
             <div class="results-grid" id="results">
                 <p style="text-align: center; color: #666; padding: 20px; grid-column: 1/-1;">
                     Configure your system components to see the analysis
@@ -657,47 +810,49 @@
                 <span class="close" onclick="closeModal('solarModal')">&times;</span>
             </div>
             
-            <div class="form-group">
-                <label>Your Location</label>
-                <input type="text" id="location" placeholder="Enter city or coordinates">
-                <button onclick="getLocation()" class="btn btn-small">📍 Use My Location</button>
-            </div>
-            
-            <div id="locationInfo" class="location-info" style="display:none;"></div>
-            
-            <div class="form-row">
+            <div class="modal-body">
                 <div class="form-group">
-                    <label>Daily Sun Hours</label>
-                    <input type="number" id="sunHours" value="5" min="1" max="12" step="0.1">
+                    <label>Your Location</label>
+                    <input type="text" id="location" placeholder="Enter city or coordinates">
+                    <button onclick="getLocation()" class="btn btn-small">📍 Use My Location</button>
                 </div>
+                
+                <div id="locationInfo" class="location-info" style="display:none;"></div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Daily Sun Hours</label>
+                        <input type="number" id="sunHours" value="5" min="1" max="12" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label>Autonomy Period</label>
+                        <select id="autonomyUnit">
+                            <option value="days">Days</option>
+                            <option value="hours">Hours</option>
+                        </select>
+                    </div>
+                </div>
+                
                 <div class="form-group">
-                    <label>Autonomy Period</label>
-                    <select id="autonomyUnit">
-                        <option value="days">Days</option>
-                        <option value="hours">Hours</option>
+                    <label>Autonomy Duration</label>
+                    <input type="number" id="autonomyValue" value="2" min="0.5" step="0.5">
+                </div>
+                
+                <div class="form-group">
+                    <label>Power Generation Pattern</label>
+                    <select id="generationPattern">
+                        <option value="linear">Linear (Equal throughout day)</option>
+                        <option value="gaussian">Gaussian (Peak at midday)</option>
+                        <option value="custom">Custom Distribution</option>
                     </select>
                 </div>
+                
+                <div id="generationChart" class="chart-container" style="display:none;">
+                    <canvas id="generationCurve" class="generation-curve"></canvas>
+                </div>
             </div>
             
-            <div class="form-group">
-                <label>Autonomy Duration</label>
-                <input type="number" id="autonomyValue" value="2" min="0.5" step="0.5">
-            </div>
-            
-            <div class="form-group">
-                <label>Power Generation Pattern</label>
-                <select id="generationPattern">
-                    <option value="linear">Linear (Equal throughout day)</option>
-                    <option value="gaussian">Gaussian (Peak at midday)</option>
-                    <option value="custom">Custom Distribution</option>
-                </select>
-            </div>
-            
-            <div id="generationChart" class="chart-container" style="display:none;">
-                <canvas id="generationCurve" class="generation-curve"></canvas>
-            </div>
-            
-            <div style="text-align: right; margin-top: 25px;">
+            <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('solarModal')">Close</button>
                 <button class="btn" onclick="saveSolarConfig()">Save Configuration</button>
             </div>
@@ -712,54 +867,56 @@
                 <span class="close" onclick="closeModal('systemModal')">&times;</span>
             </div>
             
-            <div class="form-row">
-                <div class="form-group">
-                    <label>DC System Voltage</label>
-                    <select id="systemVoltage">
-                        <option value="12">12V DC</option>
-                        <option value="24" selected>24V DC</option>
-                        <option value="36">36V DC</option>
-                        <option value="48">48V DC</option>
-                        <option value="60">60V DC</option>
-                    </select>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>DC System Voltage</label>
+                        <select id="systemVoltage">
+                            <option value="12">12V DC</option>
+                            <option value="24" selected>24V DC</option>
+                            <option value="36">36V DC</option>
+                            <option value="48">48V DC</option>
+                            <option value="60">60V DC</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Inverter Output Voltage</label>
+                        <select id="inverterVoltage">
+                            <option value="110">110V AC</option>
+                            <option value="240" selected>240V AC</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Inverter Output Voltage</label>
-                    <select id="inverterVoltage">
-                        <option value="110">110V AC</option>
-                        <option value="240" selected>240V AC</option>
-                    </select>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>System Efficiency (%)</label>
+                        <input type="number" id="systemEfficiency" value="80" min="50" max="95">
+                    </div>
+                    <div class="form-group">
+                        <label>Battery DOD (%)</label>
+                        <input type="number" id="batteryDOD" value="50" min="20" max="90">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Panel Derating (%)</label>
+                        <input type="number" id="panelDerating" value="80" min="50" max="95">
+                    </div>
+                    <div class="form-group">
+                        <label>Safety Margin (%)</label>
+                        <input type="number" id="safetyMargin" value="25" min="10" max="50">
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    💡 <strong>DOD (Depth of Discharge):</strong> Percentage of battery capacity you can safely use. 
+                    Lower DOD = longer battery life. Lead-acid: 50%, Lithium: 80-90%.
                 </div>
             </div>
             
-            <div class="form-row">
-                <div class="form-group">
-                    <label>System Efficiency (%)</label>
-                    <input type="number" id="systemEfficiency" value="80" min="50" max="95">
-                </div>
-                <div class="form-group">
-                    <label>Battery DOD (%)</label>
-                    <input type="number" id="batteryDOD" value="50" min="20" max="90">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Panel Derating (%)</label>
-                    <input type="number" id="panelDerating" value="80" min="50" max="95">
-                </div>
-                <div class="form-group">
-                    <label>Safety Margin (%)</label>
-                    <input type="number" id="safetyMargin" value="25" min="10" max="50">
-                </div>
-            </div>
-            
-            <div class="info-box">
-                💡 <strong>DOD (Depth of Discharge):</strong> Percentage of battery capacity you can safely use. 
-                Lower DOD = longer battery life. Lead-acid: 50%, Lithium: 80-90%.
-            </div>
-            
-            <div style="text-align: right; margin-top: 25px;">
+            <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('systemModal')">Close</button>
                 <button class="btn" onclick="saveSystemConfig()">Save Configuration</button>
             </div>
@@ -774,85 +931,87 @@
                 <span class="close" onclick="closeModal('deviceModal')">&times;</span>
             </div>
             
-            <div class="form-group">
-                <label>Device Type</label>
-                <select id="deviceType">
-                    <option value="laptop">Laptop</option>
-                    <option value="tv">TV</option>
-                    <option value="fan">Fan</option>
-                    <option value="refrigerator">Refrigerator</option>
-                    <option value="led_bulb">LED Bulb</option>
-                    <option value="cfl_bulb">CFL Bulb</option>
-                    <option value="microwave">Microwave</option>
-                    <option value="washing_machine">Washing Machine</option>
-                    <option value="custom">Custom Device</option>
-                </select>
-            </div>
-            
-            <div class="form-group" id="customNameGroup" style="display:none;">
-                <label>Device Name</label>
-                <input type="text" id="customName" placeholder="Enter device name">
-            </div>
-            
-            <div class="form-group">
-                <label>Power Input Method</label>
-                <select id="powerMethod">
-                    <option value="wattage">Wattage & Efficiency</option>
-                    <option value="voltage_current">Voltage & Current</option>
-                </select>
-            </div>
-            
-            <div id="wattageInputs">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Device Type</label>
+                    <select id="deviceType">
+                        <option value="laptop">Laptop</option>
+                        <option value="tv">TV</option>
+                        <option value="fan">Fan</option>
+                        <option value="refrigerator">Refrigerator</option>
+                        <option value="led_bulb">LED Bulb</option>
+                        <option value="cfl_bulb">CFL Bulb</option>
+                        <option value="microwave">Microwave</option>
+                        <option value="washing_machine">Washing Machine</option>
+                        <option value="custom">Custom Device</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="customNameGroup" style="display:none;">
+                    <label>Device Name</label>
+                    <input type="text" id="customName" placeholder="Enter device name">
+                </div>
+                
+                <div class="form-group">
+                    <label>Power Input Method</label>
+                    <select id="powerMethod">
+                        <option value="wattage">Wattage & Efficiency</option>
+                        <option value="voltage_current">Voltage & Current</option>
+                    </select>
+                </div>
+                
+                <div id="wattageInputs">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Wattage (W)</label>
+                            <input type="number" id="wattage" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Efficiency (%) - Optional</label>
+                            <input type="number" id="efficiency" placeholder="Default: 90%">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="voltageCurrentInputs" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Voltage (V)</label>
+                            <select id="deviceVoltage">
+                                <option value="110">110V AC</option>
+                                <option value="240">240V AC</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Current (A)</label>
+                            <input type="number" id="current" min="0.1" step="0.1">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" id="quantity" value="1" min="1">
+                </div>
+                
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Wattage (W)</label>
-                        <input type="number" id="wattage" min="1">
+                        <label>Daytime Hours (Sunny)</label>
+                        <input type="number" id="daytimeHours" value="0" min="0" step="0.1">
                     </div>
                     <div class="form-group">
-                        <label>Efficiency (%) - Optional</label>
-                        <input type="number" id="efficiency" placeholder="Default: 90%">
+                        <label>Nighttime Hours (Battery)</label>
+                        <input type="number" id="nighttimeHours" value="1" min="0" step="0.1">
                     </div>
                 </div>
-            </div>
-            
-            <div id="voltageCurrentInputs" style="display:none;">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Voltage (V)</label>
-                        <select id="deviceVoltage">
-                            <option value="110">110V AC</option>
-                            <option value="240">240V AC</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Current (A)</label>
-                        <input type="number" id="current" min="0.1" step="0.1">
-                    </div>
+                
+                <div class="info-box">
+                    💡 <strong>Tip:</strong> Daytime hours reduce battery drain as panels supply power directly. 
+                    Nighttime hours determine battery capacity needed.
                 </div>
             </div>
             
-            <div class="form-group">
-                <label>Quantity</label>
-                <input type="number" id="quantity" value="1" min="1">
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Daytime Hours (Sunny)</label>
-                    <input type="number" id="daytimeHours" value="0" min="0" step="0.1">
-                </div>
-                <div class="form-group">
-                    <label>Nighttime Hours (Battery)</label>
-                    <input type="number" id="nighttimeHours" value="1" min="0" step="0.1">
-                </div>
-            </div>
-            
-            <div class="info-box">
-                💡 <strong>Tip:</strong> Daytime hours reduce battery drain as panels supply power directly. 
-                Nighttime hours determine battery capacity needed.
-            </div>
-            
-            <div style="text-align: right; margin-top: 25px;">
+            <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('deviceModal')">Close</button>
                 <button class="btn" onclick="addDevice()">Add Device</button>
             </div>
@@ -906,7 +1065,7 @@
             }
             
             // Update component status
-            updateComponentStatus();
+            updateSystemStatus();
         };
         
         // Event listeners
@@ -981,31 +1140,31 @@
             document.body.style.overflow = 'auto';
         }
         
-        function updateComponentStatus() {
+        function updateSystemStatus() {
             const sunHours = document.getElementById('sunHours').value;
             const location = document.getElementById('location').value;
             const systemVoltage = document.getElementById('systemVoltage').value;
             const deviceCount = devices.length;
             
-            document.getElementById('sunStatus').textContent = location ? 
-                `${sunHours}h/day at ${location}` : `${sunHours}h/day`;
+            let statusText = `${systemVoltage}V DC system, ${sunHours}h sun/day`;
+            if (location) {
+                statusText += ` at ${location}`;
+            }
+            if (deviceCount > 0) {
+                statusText += ` | ${deviceCount} device${deviceCount > 1 ? 's' : ''} added`;
+            }
             
-            document.getElementById('panelStatus').textContent = 'Ready for calculation';
-            document.getElementById('controllerStatus').textContent = `${systemVoltage}V DC system`;
-            document.getElementById('inverterStatus').textContent = `${document.getElementById('inverterVoltage').value}V AC`;
-            document.getElementById('batteryStatus').textContent = `${systemVoltage}V DC bank`;
-            document.getElementById('houseStatus').textContent = deviceCount ? 
-                `${deviceCount} device${deviceCount > 1 ? 's' : ''}` : 'No devices added';
+            document.getElementById('systemStatus').textContent = statusText;
         }
         
         function saveSolarConfig() {
-            updateComponentStatus();
+            updateSystemStatus();
             calculateSystem();
             closeModal('solarModal');
         }
         
         function saveSystemConfig() {
-            updateComponentStatus();
+            updateSystemStatus();
             calculateSystem();
             closeModal('systemModal');
         }
@@ -1164,7 +1323,7 @@
             
             devices.push(device);
             updateDeviceList();
-            updateComponentStatus();
+            updateSystemStatus();
             calculateSystem();
             closeModal('deviceModal');
             
@@ -1187,8 +1346,24 @@
             }
             
             updateDeviceList();
-            updateComponentStatus();
+            updateSystemStatus();
             calculateSystem();
+        }
+        
+        function clearAllDevices() {
+            if (devices.length === 0) {
+                alert('No devices to clear');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to remove all devices?')) {
+                devices = [];
+                document.getElementById('inverterVoltage').disabled = false;
+                systemVoltageFixed = false;
+                updateDeviceList();
+                updateSystemStatus();
+                calculateSystem();
+            }
         }
         
         function updateDeviceList() {
@@ -1196,8 +1371,8 @@
             
             if (devices.length === 0) {
                 deviceList.innerHTML = `
-                    <p style="text-align: center; color: #666; padding: 20px;">
-                        Click the house icon to add devices
+                    <p style="text-align: center; color: #666; padding: 20px; font-size: 0.85em;">
+                        No devices added yet
                     </p>
                 `;
                 return;
@@ -1213,7 +1388,7 @@
                 if (device.powerMethod === 'voltage_current') {
                     specs += ` (${device.voltage}V × ${device.current}A)`;
                 }
-                specs += `, ${device.efficiency}% eff, ${device.quantity}× qty`;
+                specs += ` | ${device.quantity}× qty`;
                 specs += `<br>Day: ${device.daytimeHours}h, Night: ${device.nighttimeHours}h`;
                 
                 deviceDiv.innerHTML = `
@@ -1221,7 +1396,7 @@
                         <div class="device-name">${device.name}</div>
                         <div class="device-specs">${specs}</div>
                     </div>
-                    <button class="remove-btn" onclick="removeDevice(${index})">Remove</button>
+                    <button class="remove-btn" onclick="removeDevice(${index})">×</button>
                 `;
                 
                 deviceList.appendChild(deviceDiv);
@@ -1321,55 +1496,39 @@
             
             resultsDiv.innerHTML = `
                 <div class="result-card">
-                    <div class="result-title">Daily Energy Consumption</div>
+                    <div class="result-title">Daily Energy</div>
                     <div class="result-value">${results.totalDailyWh} Wh</div>
-                    <small>Daytime: ${results.totalDaytimeWh} Wh | Nighttime: ${results.totalNighttimeWh} Wh<br>
-                    Including losses: ${results.totalDailyWhWithLosses} Wh</small>
+                    <div class="result-details">Day: ${results.totalDaytimeWh} Wh<br>Night: ${results.totalNighttimeWh} Wh</div>
                 </div>
                 
                 <div class="result-card">
-                    <div class="result-title">Peak Power Demand</div>
+                    <div class="result-title">Peak Power</div>
                     <div class="result-value">${results.totalPeakWatts} W</div>
-                    <small>Maximum simultaneous load</small>
+                    <div class="result-details">Maximum load</div>
                 </div>
                 
                 <div class="result-card">
-                    <div class="result-title">Solar Panel Capacity</div>
+                    <div class="result-title">Solar Panels</div>
                     <div class="result-value">${results.recommendedSolarWatts} W</div>
-                    <small>Minimum needed: ${results.solarWattsNeeded} W<br>
-                    Effective gen hours: ${results.effectiveGenerationHours}h</small>
+                    <div class="result-details">Min: ${results.solarWattsNeeded} W<br>Gen: ${results.effectiveGenerationHours}h</div>
                 </div>
                 
                 <div class="result-card">
-                    <div class="result-title">Battery Capacity</div>
+                    <div class="result-title">Battery Bank</div>
                     <div class="result-value">${results.batteryAhNeeded} Ah</div>
-                    <small>At ${results.systemVoltage}V (${results.batteryWhNeeded} Wh)<br>
-                    For ${results.autonomyHours}h autonomy</small>
+                    <div class="result-details">At ${results.systemVoltage}V<br>(${results.batteryWhNeeded} Wh)</div>
                 </div>
                 
                 <div class="result-card">
-                    <div class="result-title">Inverter Capacity</div>
+                    <div class="result-title">Inverter</div>
                     <div class="result-value">${results.inverterWattsNeeded} W</div>
-                    <small>With safety margin included</small>
+                    <div class="result-details">With safety margin</div>
                 </div>
                 
                 <div class="result-card">
-                    <div class="result-title">Charge Controller</div>
+                    <div class="result-title">Controller</div>
                     <div class="result-value">${results.chargeControllerAmps} A</div>
-                    <small>MPPT recommended</small>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">Generation Pattern</div>
-                    <div class="result-value">${results.generationPattern}</div>
-                    <small>Efficiency factor: ${(results.generationEfficiency * 100).toFixed(0)}%</small>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">System Summary</div>
-                    <div class="result-value">Complete</div>
-                    <small>Optimized for ${results.generationPattern} generation pattern<br>
-                    Advanced day/night load calculation</small>
+                    <div class="result-details">MPPT recommended</div>
                 </div>
             `;
         }
@@ -1606,7 +1765,8 @@
         }
         
         // Update calculations when system parameters change
-        ['systemVoltage', 'sunHours', 'autonomyValue', 'autonomyUnit', 'systemEfficiency', 'batteryDOD', 'panelDerating', 'safetyMargin'].forEach(id => {
+        const parameterIds = ['systemVoltage', 'sunHours', 'autonomyValue', 'autonomyUnit', 'systemEfficiency', 'batteryDOD', 'panelDerating', 'safetyMargin'];
+        parameterIds.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
                 element.addEventListener('change', calculateSystem);
@@ -1614,4 +1774,4 @@
         });
     </script>
 </body>
-</html>
+</html></option
