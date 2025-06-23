@@ -18,7 +18,7 @@ A professional, responsive web application for designing off-grid solar power sy
 
 ## 🚀 Live Demo
 
-Visit the live application: **[Solar Calculator](https://yourusername.github.io/off-grid-solar-calculator)**
+Visit the live application: **[Solar Calculator](https://achintha96.github.io/off-grid-solar-calculator)**
 
 ## 📸 Screenshots
 
